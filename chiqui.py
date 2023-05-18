@@ -36,19 +36,38 @@ def orden_en_tabla(equipo):
 def ordenar_tabla(tabla):
     return sorted(tabla, key=orden_en_tabla, reverse=True)
 
-lista_goles = []
-puntosA = 0
-puntosB = 0
+def simular_jugadas(a, b, cantidad_jugadas):
+    lista_goles = []
+    puntosA = 0
+    puntosB = 0
 
-for i in range(4):
-    gol = jugada(("River", 79), ("Boca", 48))
-    print(gol)
-    if gol == "A":
-        puntosA = puntosA +1
-    if gol == "B":
-        puntosA = puntosB +1
-    lista_goles.append(gol)
+    for i in range(cantidad_jugadas):
+        gol = jugada(a, b)
+        if gol == "A":
+            puntosA = puntosA +1
+        if gol == "B":
+            puntosB = puntosB +1
+        lista_goles.append(gol)
+    return puntosA, puntosB
+
+
+lista_equipos = [("River", 78),("Boca", 37),("Independiente", 40),("Racing", 55),("San Lorenzo", 64),("Banfield", 17),("Velez", 47),("Huracán", 21)]
+
+for i in range(0, len(lista_equipos), 2):
+    a= lista_equipos[i]
+    b = lista_equipos [i+1] 
+    puntosA,puntosB = simular_jugadas(a, b, 4)
+    print(f"Inicial {a[0]}:{puntosA} | {b[0]}:{puntosB}")
+    if puntosA == puntosB:
+        dpuntosA, dpuntosB = simular_jugadas(a, b, 2)
+        puntosA = puntosA + dpuntosA
+        puntosB = puntosB + dpuntosB
+        print(f"Tiempo extra {a[0]}:{puntosA} | {b[0]}:{puntosB}")
+    while puntosA == puntosB:
+        #gol de oro
+        dpuntosA, dpuntosB = simular_jugadas(a, b, 1)
+        puntosA = puntosA + dpuntosA
+        puntosB = puntosB + dpuntosB
+        print(f"Gol de oro {a[0]}:{puntosA} | {b[0]}:{puntosB}")
     
-print("River: " + str(puntosA) + " Boca: " + str(puntosB))
-
 
