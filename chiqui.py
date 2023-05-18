@@ -19,7 +19,8 @@ def probabilidades_de_gol(equipoA, equipoB):
 #Función Auxiliar 1
 # Toma dos equipos, que son una lista o tupla de dos elementos: el primero es el nombre del equipo y el segundo es la efectividad.
 # Devuelve A si mete gol A, B si mete gol B, E si no mete gol ninguno.
-def goles(equipoA,equipoB):
+#EquipoA = [equipo, efect]
+def jugada(equipoA,equipoB):
     victoriaA, empate, victoriaB = probabilidades_de_gol(equipoA, equipoB)
     resultado = rnd.choices(["A", "E", "B"], [victoriaA, empate, victoriaB])[0]
     return(resultado)
@@ -34,3 +35,20 @@ def orden_en_tabla(equipo):
 #La tabla de posiciones es una lista de listas, donde cada lista interna tiene cuatro elementos: el primero es el nombre del equipo, el segundo es la cantidad de puntos, el tercero es la cantidad de goles a favor y el cuarto es la cantidad de goles en contra.
 def ordenar_tabla(tabla):
     return sorted(tabla, key=orden_en_tabla, reverse=True)
+
+lista_goles = []
+puntosA = 0
+puntosB = 0
+
+for i in range(4):
+    gol = jugada(("River", 79), ("Boca", 48))
+    print(gol)
+    if gol == "A":
+        puntosA = puntosA +1
+    if gol == "B":
+        puntosA = puntosB +1
+    lista_goles.append(gol)
+    
+print("River: " + str(puntosA) + " Boca: " + str(puntosB))
+
+
