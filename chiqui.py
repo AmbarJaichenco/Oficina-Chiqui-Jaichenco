@@ -85,10 +85,20 @@ def correr_lista(lista_elegida):
 
     return lista_ganadores
 
+
+def sacar_estadistica(lista_elec):
+    equipos_solonombres = []
+    for tuplas in lista_elec:
+        equipos_solonombres.append(tuplas[0])
+    return equipos_solonombres
+
+
 ganadores1 = correr_lista(lista_equipos)
+ganadores1 = sacar_estadistica(ganadores1)
 print(f"los ganadores de la primera ronda son {ganadores1}")
 ganadores2 = correr_lista(ganadores1)
+ganadores2 = sacar_estadistica(ganadores2)
 print(f"Los ganadores de la ronda 2 son {ganadores2}")
 ganadores3= correr_lista(ganadores2)
+ganadores3 = sacar_estadistica(ganadores3)
 print(f"El ganador es {ganadores3}")
-
