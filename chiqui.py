@@ -50,7 +50,30 @@ def simular_jugadas(a, b, cantidad_jugadas):
         lista_goles.append(gol)
     return puntosA, puntosB
 
+def simular_jugadas_Laves(a, b):
+    lista_goles = []
+    puntosA = 0
+    puntosB = 0
 
+    for i in range(4):
+        gol = jugada(a, b)
+        if gol == "A":
+            puntosA = puntosA +1
+        if gol == "B":
+            puntosB = puntosB +1
+        lista_goles.append(gol)
+
+    if puntosA==puntosB: #Si al cabo de las 4 jugadas de arriba, estan empatados ambos equipos,
+        for i in range(2): #Se hacen 2 jugadas mas
+            gol = jugada(a, b)
+            if gol == "A":
+                puntosA = puntosA +1
+            if gol == "B":
+                puntosB = puntosB +1
+            lista_goles.append(gol)
+
+    #Si al cabo de esas 6 jugadas, ambos equipos siguen teniendo igual cantidad de goles, se hacen jugadas hasta que un equipo mete gol
+    return puntosA, puntosB
 lista_equipos = [("River", 78),("Boca", 37),("Independiente", 40),("Racing", 55),("San Lorenzo", 64),("Banfield", 17),("Velez", 47),("Huracán", 21)]
 
 def correr_lista(lista_elegida):
@@ -58,8 +81,8 @@ def correr_lista(lista_elegida):
     lista_ganadores =[]
     for i in range(0, len(lista_elegida), 2):
         
-        a= lista_equipos[i]
-        b = lista_equipos [i+1] 
+        a= lista_elegida[i]
+        b = lista_elegida [i+1] 
         #ganador 
         puntosA,puntosB = simular_jugadas(a, b, 4)
         print(f"Inicial {a[0]}:{puntosA} | {b[0]}:{puntosB}")
@@ -92,13 +115,29 @@ def sacar_estadistica(lista_elec):
         equipos_solonombres.append(tuplas[0])
     return equipos_solonombres
 
-
 ganadores1 = correr_lista(lista_equipos)
-ganadores1 = sacar_estadistica(ganadores1)
-print(f"los ganadores de la primera ronda son {ganadores1}")
+print(f"los ganadores de la primera ronda son {sacar_estadistica(ganadores1)}")
+
 ganadores2 = correr_lista(ganadores1)
-ganadores2 = sacar_estadistica(ganadores2)
-print(f"Los ganadores de la ronda 2 son {ganadores2}")
+
+print(f"Los ganadores de la ronda 2 son {sacar_estadistica(ganadores2)}")
 ganadores3= correr_lista(ganadores2)
-ganadores3 = sacar_estadistica(ganadores3)
-print(f"El ganador es {ganadores3}")
+print(f"El ganador es {sacar_estadistica(ganadores3)}")
+
+
+def campeonato(lista_elegida):
+    marcador = [0,0,0,0,0,0,0,0]
+    for a in range(len(lista_elegida)):
+        for b in range(a+1, len(lista_elegida), 1):
+            marcador = [0,0,0,0,0,0,0,0]
+            resultado = jugada(a, b) 
+            if resultado == "E": 
+                marcador[b] += 1
+            if resultado == "A":
+                marcador[a] += 3
+            if resultado == "B":
+                marcador[b] += 3
+
+
+
+           
