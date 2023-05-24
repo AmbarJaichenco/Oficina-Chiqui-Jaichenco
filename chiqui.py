@@ -126,18 +126,23 @@ print(f"El ganador es {sacar_estadistica(ganadores3)}")
 
 
 def campeonato(lista_elegida):
-    marcador = [0,0,0,0,0,0,0,0]
+    marcador = []
+    for i in lista_elegida:
+        marcador.append([i[0],0,0,0])
     for a in range(len(lista_elegida)):
         for b in range(a+1, len(lista_elegida), 1):
-            marcador = [0,0,0,0,0,0,0,0]
-            resultado = jugada(a, b) 
-            if resultado == "E": 
-                marcador[b] += 1
-            if resultado == "A":
-                marcador[a] += 3
-            if resultado == "B":
-                marcador[b] += 3
+            puntosA, puntosB = simular_jugadas(lista_elegida[a], lista_elegida[b], 4) 
+            a[2] = puntosA + a[2]
+            b[2] = puntosB + b[2]
+            if puntosA>puntosB: 
+                a[1] = a[1] + 3
+                #a[2] = a[2] + (puntosA - puntosB)
+            elif puntosB>puntosA:
+                b[1] = b[1] + 3
+                #b[2] = b[2] + (puntosB - puntosA)
+            elif puntosA == puntosB:
+                b[1] = b[1] + 1
+                a[1] = a[1] + 1
+            
 
-
-
-           
+            
