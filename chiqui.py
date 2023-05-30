@@ -1,5 +1,6 @@
 #Importo la librería random como rnd
 import random as rnd
+import math
 
 # Función Auxiliar 1
 # Esta función la usa goles
@@ -115,14 +116,21 @@ def sacar_estadistica(lista_elec):
         equipos_solonombres.append(tuplas[0])
     return equipos_solonombres
 
-ganadores1 = correr_lista(lista_equipos)
-print(f"los ganadores de la primera ronda son {sacar_estadistica(ganadores1)}")
+#arreglar harcodeado
 
-ganadores2 = correr_lista(ganadores1)
+# ganadores1 = correr_lista(lista_equipos)
+# print(f"los ganadores de la primera ronda son {sacar_estadistica(ganadores1)}")
 
-print(f"Los ganadores de la ronda 2 son {sacar_estadistica(ganadores2)}")
-ganadores3= correr_lista(ganadores2)
-print(f"El ganador es {sacar_estadistica(ganadores3)}")
+# ganadores2 = correr_lista(ganadores1)
+
+# print(f"Los ganadores de la seguna ronda son {sacar_estadistica(ganadores2)}")
+# ganadores3= correr_lista(ganadores2)
+# print(f"El ganador final es {sacar_estadistica(ganadores3)}")
+
+ganadores = lista_equipos
+for i in range(int(math.log2(len(lista_equipos)))):
+    ganadores = correr_lista(ganadores)
+    print(f"los ganadores de esta ronda son {sacar_estadistica(ganadores)}")
 
 
 def campeonato(lista_elegida):
@@ -132,17 +140,21 @@ def campeonato(lista_elegida):
     for a in range(len(lista_elegida)):
         for b in range(a+1, len(lista_elegida), 1):
             puntosA, puntosB = simular_jugadas(lista_elegida[a], lista_elegida[b], 4) 
-            a[2] = puntosA + a[2]
-            b[2] = puntosB + b[2]
-            if puntosA>puntosB: 
-                a[1] = a[1] + 3
-                #a[2] = a[2] + (puntosA - puntosB)
-            elif puntosB>puntosA:
-                b[1] = b[1] + 3
-                #b[2] = b[2] + (puntosB - puntosA)
-            elif puntosA == puntosB:
-                b[1] = b[1] + 1
-                a[1] = a[1] + 1
-            
+            marcador[a][2] += puntosA
+            marcador[a][3] += puntosB 
 
-            
+            marcador[b][2] += puntosB 
+            marcador[b][3] += puntosA
+
+            if puntosA>puntosB: 
+                marcador[a][1] = marcador[a][1] + 3
+            elif puntosB>puntosA:
+                marcador[b][1] += 3
+            elif puntosA == puntosB:
+                marcador[b][1] +=  1
+                marcador[a][1] +=  1
+    lista_ordenada = ordenar_tabla(marcador)
+    return(lista_ordenada)
+
+# listafinal = campeonato(lista_equipos)
+# print(listafinal)
