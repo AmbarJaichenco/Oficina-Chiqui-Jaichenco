@@ -75,7 +75,7 @@ def simular_jugadas_Laves(a, b):
 
     #Si al cabo de esas 6 jugadas, ambos equipos siguen teniendo igual cantidad de goles, se hacen jugadas hasta que un equipo mete gol
     return puntosA, puntosB
-lista_equipos = [("River", 78),("Boca", 37),("Independiente", 40),("Racing", 55),("San Lorenzo", 64),("Banfield", 17),("Velez", 47),("Huracán", 21)]
+lista_equipos = [("River", 58),("Boca", 57),("Independiente", 56),("Racing", 55),("San Lorenzo", 50),("Banfield", 48),("Velez", 47),("Huracán", 45)]
 
 def correr_lista(lista_elegida):
     
@@ -86,25 +86,25 @@ def correr_lista(lista_elegida):
         b = lista_elegida [i+1] 
         #ganador 
         puntosA,puntosB = simular_jugadas(a, b, 4)
-        print(f"Inicial {a[0]}:{puntosA} | {b[0]}:{puntosB}")
+        #print(f"Inicial {a[0]}:{puntosA} | {b[0]}:{puntosB}")
         if puntosA == puntosB:
             dpuntosA, dpuntosB = simular_jugadas(a, b, 2)
             puntosA = puntosA + dpuntosA
             puntosB = puntosB + dpuntosB
-            print(f"Tiempo extra {a[0]}:{puntosA} | {b[0]}:{puntosB}")
+            #print(f"Tiempo extra {a[0]}:{puntosA} | {b[0]}:{puntosB}")
         while puntosA == puntosB:
             #gol de oro
             dpuntosA, dpuntosB = simular_jugadas(a, b, 1)
             puntosA = puntosA + dpuntosA
             puntosB = puntosB + dpuntosB
-            print(f"Gol de oro {a[0]}:{puntosA} | {b[0]}:{puntosB}")
+            #print(f"Gol de oro {a[0]}:{puntosA} | {b[0]}:{puntosB}")
         if puntosA>puntosB: 
             #ganador = a
-            print(f"El ganador es {a[0]}")
+            #print(f"El ganador es {a[0]}")
             lista_ganadores.append(a)
         elif puntosB>puntosA:
             #ganador = b 
-            print(f"El ganador es {b [0]}")
+            #print(f"El ganador es {b [0]}")
             lista_ganadores.append(b)
 
     return lista_ganadores
@@ -127,10 +127,12 @@ def sacar_estadistica(lista_elec):
 # ganadores3= correr_lista(ganadores2)
 # print(f"El ganador final es {sacar_estadistica(ganadores3)}")
 
-ganadores = lista_equipos
-for i in range(int(math.log2(len(lista_equipos)))):
-    ganadores = correr_lista(ganadores)
-    print(f"los ganadores de esta ronda son {sacar_estadistica(ganadores)}")
+
+def correrllaves(listaelegida):
+    ganadores = lista_equipos
+    for i in range(int(math.log2(len(listaelegida)))):
+      ganadores = correr_lista(ganadores)
+    return(ganadores)
 
 
 def campeonato(lista_elegida):
@@ -156,5 +158,23 @@ def campeonato(lista_elegida):
     lista_ordenada = ordenar_tabla(marcador)
     return(lista_ordenada)
 
-# listafinal = campeonato(lista_equipos)
-# print(listafinal)
+
+
+def corrermucho(listaelegida):
+    ganadoresllaves = {}
+    ganadoresliga={}
+    for equipo,efectividad in listaelegida:
+        ganadoresliga[equipo] = 0
+        ganadoresllaves[equipo] = 0
+    for i in range(500):
+        listafinal = campeonato(listaelegida)
+        ganadoresliga[listafinal[0][0]] += 1
+
+        listallaves = correrllaves(listaelegida)
+        ganadoresllaves[listallaves[0][0]] += 1
+
+    return(ganadoresliga, ganadoresllaves)
+
+ganadoresliga, ganadoresllaves = corrermucho(lista_equipos) 
+print(f"llaves: {ganadoresllaves}")
+print(f"liga: {ganadoresliga}")
